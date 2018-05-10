@@ -1,0 +1,29 @@
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/* 
+    Created on : Feb 21, 2018, 3:55:09 PM
+    Author     : jamescleary
+*/
+.nav-custom{
+    position: fixed;
+}
+
+.text-left{
+    text-align: left;
+}
+
+.text-center{
+    text-align: center;
+}
+
+.text-right{
+    text-align:right;
+}
+
+
+#nonUserNavbar li:nth-last-child(-n+2){
+    float:right;
+}

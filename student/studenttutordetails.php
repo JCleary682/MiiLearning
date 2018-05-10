@@ -1,10 +1,18 @@
 <?php
-include("connection/conn.php");
-include("functions/functions.php");
+session_start();
+
+if(!isset($_SESSION["mii_40159215"]))
+{
+    header("Location: ../index.php");
+}
+
+include("../connection/conn.php");
+include("../functions/functions.php");
 
 $tutoritem = htmlentities($_GET["tutor_id"]);
+$tutoriddata = $tutoritem;
 
-$queryread = "SELECT miiLearning_Users.name, miiLearning_Users.username, miiLearning_Users.profile_pic, miiLearning_Users.tutor_descript
+$queryread = "SELECT miiLearning_Users.id, miiLearning_Users.name, miiLearning_Users.username, miiLearning_Users.profile_pic, miiLearning_Users.tutor_descript
             FROM miiLearning_Users    
             WHERE miiLearning_Users.id = '$tutoritem'";
 
@@ -15,7 +23,7 @@ $querySubjects = "SELECT miiLearning_Tutors.subject_level, miiLearning_Tutors.su
                   INNER JOIN miiLearning_level
                   ON miiLearning_Tutors.subject_level = miiLearning_level.level_id
                   WHERE miiLearning_Tutors.tutor_id = '$tutoritem'";
-$queryAvail = "SELECT tutor_id, Monday, Tuesday, Wednesday, Thursday, Friday, Saturday, Sunday
+$queryAvail = "SELECT *
                 FROM miiLearning_tutorAvail
                 WHERE tutor_id = '$tutoritem'";
 
@@ -41,12 +49,8 @@ mysqli_close($conn);
     <body>
         <div name="container">
             <?php
-            $navbar = displayNonRegNav();
+            $navbar = studentNav();
             ?>
-        </div>
-
-        <div>
-          <h1>Testing git commits</h1>
         </div>
 
         <!-- Sample Section -->
@@ -63,6 +67,7 @@ mysqli_close($conn);
                             $namedata = $row["name"];
                             $img_data = $row["profile_pic"];
                             $descript_data = $row["tutor_descript"];
+                            $tutoriddata = $row["id"];
 
                             echo "<div class='container'>
                                     <div class='row'>
@@ -70,7 +75,7 @@ mysqli_close($conn);
                                             <h1>$namedata</h1>
                                         </div>
                                         <div class='col-4'>
-                                            <a class='btn btn-primary' href='secure/login.php'>Book Tutor</a>
+                                            <a class='btn btn-primary' href='studentbookingsystem.php?tutor_id=$tutoritem'>Find Out More</a>
                                         </div>
                                     </div>
                                     <div class='row'>
@@ -78,7 +83,7 @@ mysqli_close($conn);
                                             <p>$descript_data</p>
                                         </div>
                                         <div class='col-4'>
-                                            <img src='img/$img_data' class='img-fluid'>
+                                            <img src='../img/$img_data' class='img-fluid'>
                                         </div>
                                     </div>
                                     
@@ -88,17 +93,14 @@ mysqli_close($conn);
                         echo "Not Working";
                     }
                     ?>
-                    
-
-                </div>
-                
+                </div>        
             </div>
             
             <div class='container'>
                 <div class='row'>
                     <div class='col-md-6'>
                         <div class='row'>
-                                        <p>Description of subjects offered and times available</p> 
+                            <p>Description of subjects offered and times available</p> 
                         </div>
                         <!-- Subject info php -->
                         <table class = 'table table-sm'>
@@ -133,6 +135,9 @@ mysqli_close($conn);
                                 </tbody>
                         </table>
                         
+                        <br>
+                        <br>
+                        <!-- Availability Info -->
                         <section id='subjects' class='py-3'>
                         <div class='container'>
                             <div class='col'>
@@ -215,32 +220,33 @@ mysqli_close($conn);
                                                   }
                                             
                                             echo "<tr>
-                                                        <td><img src='img/$img_mon' class='img-responsive' width='50px' height='50px'></td>
-                                                        <td><img src='img/$img_tue' class='img-responsive' width='50px' height='50px'></td>
-                                                        <td><img src='img/$img_wed' class='img-responsive' width='50px' height='50px'></td>
-                                                        <td><img src='img/$img_thur' class='img-responsive' width='50px' height='50px'></td>
-                                                        <td><img src='img/$img_fri' class='img-responsive' width='50px' height='50px'></td>
-                                                        <td><img src='img/$img_sat' class='img-responsive' width='50px' height='50px'></td>
-                                                        <td><img src='img/$img_sun' class='img-responsive' width='50px' height='50px'></td>
+                                                        <td><img src='../img/$img_mon' class='img-responsive' width='50px' height='50px'></td>
+                                                        <td><img src='../img/$img_tue' class='img-responsive' width='50px' height='50px'></td>
+                                                        <td><img src='../img/$img_wed' class='img-responsive' width='50px' height='50px'></td>
+                                                        <td><img src='../img/$img_thur' class='img-responsive' width='50px' height='50px'></td>
+                                                        <td><img src='../img/$img_fri' class='img-responsive' width='50px' height='50px'></td>
+                                                        <td><img src='../img/$img_sat' class='img-responsive' width='50px' height='50px'></td>
+                                                        <td><img src='../img/$img_sun' class='img-responsive' width='50px' height='50px'></td>
                                                     </tr>
                                                 ";
                                               }
-                                          } 
+                                          }
                                           ?>
                                         </tbody>
                                     </table>
                                 </div>
                             </div>
                         </div>
-                    </section>
+                    </section>    
+                    </div>
                 </div>
+                
             </div>
         </section>
-        
         <!-- End of first section -->
 
         <!--Page Footer -->
-        <footer class="bg-success text-white mt-5 p-5" id="main-footer">
+        <footer class="bg-dark text-white mt-5 p-5" id="main-footer">
             <div class="container">
                 <div class="row">
                     <div class="col">
