@@ -18,6 +18,9 @@ include("functions/functions.php");
           $navbar = displayNonRegNav();
           ?>
       </div>
+      <div>
+      <h1>Testing github desktop</h1>
+      </div>
     
     <!-- Info Section -->
     <section id="info" class=py-3>
