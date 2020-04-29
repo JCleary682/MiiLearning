@@ -67,7 +67,7 @@ function filtertutors($query)
     <title>Tutors</title>
   </head>
   <body>
-    <div class="container">
+    <div class="mb-2">
           <?php
           $navbar = displayNonRegNav();
           ?>
